@@ -31,4 +31,10 @@ public class AccountService {
         return repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Compte introuvable : " + id));
     }
+
+    public Account updateBalance(UUID id, double delta) {
+        Account account = findById(id);
+        account.setBalance(account.getBalance() + delta);
+        return repository.save(account);
+    }
 }

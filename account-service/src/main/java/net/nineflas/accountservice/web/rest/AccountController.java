@@ -32,4 +32,10 @@ public class AccountController {
         return service.create(account.getCustomerReference(),
                 account.getCurrency(), account.getBalance());
     }
+
+    public record BalanceRequest(double delta) {}
+    @PatchMapping("/{id}/balance")
+    public Account updateBalance(@PathVariable UUID id, @RequestBody BalanceRequest req) {
+        return service.updateBalance(id, req.delta());
+    }
 }
