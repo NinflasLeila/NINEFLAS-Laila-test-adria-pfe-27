@@ -28,7 +28,7 @@ public class TransactionService {
         checkAmount(amount);
         AccountDto account = accountClient.getAccount(accountId);
         checkAccount(account, currency);
-        if (account.balance() < amount.doubleValue()) {
+        if (BigDecimal.valueOf(account.balance()).compareTo(amount) < 0) {
             throw new IllegalArgumentException("Solde insuffisant");
         }
         Transaction t = save(accountId, amount, currency, merchantCategory, country);
@@ -42,7 +42,7 @@ public class TransactionService {
         AccountDto target = accountClient.getAccount(targetId);
         checkAccount(source, source.currency());
         checkAccount(target, source.currency());
-        if (source.balance() < amount.doubleValue()) {
+        if (BigDecimal.valueOf(source.balance()).compareTo(amount) < 0) {
             throw new IllegalArgumentException("Solde insuffisant");
         }
         Transaction debit = save(sourceId, amount, source.currency(), "TRANSFER", null);
